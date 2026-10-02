@@ -80,3 +80,6 @@ Saat dialog cetak: pilih **Ukuran kertas A4**, **Skala 100%/Default**, dan **mat
 ## H. UPDATE v6 — Tanda Terima otomatis + spasi tanda tangan
 Backend **tidak berubah**. Salin `css/style.css`, `js/app.js`, `js/docs.js` ke folder `sim-sppd` → `git add .` → `git commit -m "Update v6: tanda terima otomatis"` → `git push` → Ctrl+Shift+R.
 Menu baru **Tanda Terima** (Bendahara, Sekretaris, Admin): filter tanggal bayar → centang penerima berstatus Lunas → **Buat Tanda Terima** → Cetak. Saat mencetak pilih **A4 Landscape** bila browser tidak otomatis memilihnya.
+
+## I. UPDATE v7 — Format lembar kedua SPPD sesuai referensi
+Backend **tidak berubah**. Salin `css/style.css` dan `js/docs.js` ke folder `sim-sppd` → `git add .` → `git commit -m "Update v7: format lembar 2 SPPD"` → `git push` → Ctrl+Shift+R.
