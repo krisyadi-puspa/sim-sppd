@@ -76,3 +76,7 @@ Saat dialog cetak: pilih **Ukuran kertas A4**, **Skala 100%/Default**, dan **mat
 **Backend:** paste `Kode.gs` baru → **Deploy → Manage deployments → ✏️ Edit → New version**. Lalu di editor jalankan fungsi **`siapkanPenyimpanan`** ▶ (sekali) dan buka **Execution log** — akan tampil link 📁 Master Penyimpanan, 📂 Uploads, dan 📄 Database. Folder ini ada di **Google Drive akun yang men-deploy Apps Script** (My Drive → `SIM-SPPD-Archive`, atau `SIM-SPPD Master Penyimpanan` bila dibuat ulang). Setelah update, link yang sama juga tampil di menu **Master Data** (login Admin).
 **Frontend:** salin `css/style.css` dan `js/app.js` ke folder `sim-sppd` → `git add .` → `git commit -m "Update v5: upload Drive"` → `git push` → Ctrl+Shift+R.
 **Catatan:** foto laporan hanya tampil di dokumen cetak bila file dibagikan "siapa saja yang memiliki link". Jika admin Google Workspace Anda memblokir berbagi publik, aplikasi memberi peringatan dan foto tidak muncul di cetak.
+
+## H. UPDATE v6 — Tanda Terima otomatis + spasi tanda tangan
+Backend **tidak berubah**. Salin `css/style.css`, `js/app.js`, `js/docs.js` ke folder `sim-sppd` → `git add .` → `git commit -m "Update v6: tanda terima otomatis"` → `git push` → Ctrl+Shift+R.
+Menu baru **Tanda Terima** (Bendahara, Sekretaris, Admin): filter tanggal bayar → centang penerima berstatus Lunas → **Buat Tanda Terima** → Cetak. Saat mencetak pilih **A4 Landscape** bila browser tidak otomatis memilihnya.

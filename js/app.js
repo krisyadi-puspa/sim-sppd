@@ -1,7 +1,7 @@
-const SECS={dash:'Dashboard',ajuan:'Pengajuan SPPD',st:'Surat Tugas',laporan:'Laporan Perjalanan',biaya:'Biaya & LPJ',arsip:'Arsip Digital',stat:'Analitik',master:'Master Data'};
-const GRP={dash:'MENU UTAMA',ajuan:'MENU UTAMA',st:'MENU UTAMA',laporan:'PROSES PERJALANAN',biaya:'PROSES PERJALANAN',arsip:'DATA & ADMINISTRASI',stat:'DATA & ADMINISTRASI',master:'DATA & ADMINISTRASI'};
-const ICO={dash:'▦',ajuan:'✎',st:'✉',laporan:'☰',biaya:'Rp',arsip:'🗂',stat:'📊',master:'⚙'};
-const ROLE={Admin:'dash ajuan st laporan biaya arsip stat master',Sekretaris:'dash ajuan st laporan biaya arsip stat','Kepala Desa':'dash ajuan st laporan biaya arsip stat',Pelaksana:'dash ajuan st laporan biaya arsip',Bendahara:'dash biaya arsip stat'};
+const SECS={dash:'Dashboard',ajuan:'Pengajuan SPPD',st:'Surat Tugas',laporan:'Laporan Perjalanan',biaya:'Biaya & LPJ',tt:'Tanda Terima',arsip:'Arsip Digital',stat:'Analitik',master:'Master Data'};
+const GRP={dash:'MENU UTAMA',ajuan:'MENU UTAMA',st:'MENU UTAMA',laporan:'PROSES PERJALANAN',biaya:'PROSES PERJALANAN',tt:'PROSES PERJALANAN',arsip:'DATA & ADMINISTRASI',stat:'DATA & ADMINISTRASI',master:'DATA & ADMINISTRASI'};
+const ICO={dash:'▦',ajuan:'✎',st:'✉',laporan:'☰',biaya:'Rp',tt:'🧾',arsip:'🗂',stat:'📊',master:'⚙'};
+const ROLE={Admin:'dash ajuan st laporan biaya tt arsip stat master',Sekretaris:'dash ajuan st laporan biaya tt arsip stat','Kepala Desa':'dash ajuan st laporan biaya arsip stat',Pelaksana:'dash ajuan st laporan biaya arsip',Bendahara:'dash biaya tt arsip stat'};
 const nr=x=>{x=String(x||'').toLowerCase();return x.includes('admin')?'Admin':x.includes('sekret')?'Sekretaris':x.includes('bendahara')||x.includes('keuangan')?'Bendahara':x.includes('pelaksana')?'Pelaksana':x.includes('kepala')||x.includes('kades')?'Kepala Desa':''};
 const okS=s=>!!(s&&s.me&&Array.isArray(s.pengajuan)&&s.biaya&&ROLE[nr(s.me.role)]);
 window.onerror=m=>toast('Error: '+m,1);
@@ -52,6 +52,8 @@ const sec={
  ajuan:()=>`<h2>Pengajuan SPPD</h2>${tbl(S.pengajuan)}`,
  st:()=>`<h2>Surat Tugas</h2>${tbl(S.pengajuan.filter(x=>x.no_st))}`,
  biaya:()=>`<h2>Biaya & LPJ</h2>${tbl(S.pengajuan.filter(x=>x.status==='Disetujui'))}`,
+  tt(){const L=ttList(),n=L.filter(x=>TT.sel.has(x.id)).length,ck='style="width:auto;height:auto"';
+  return `<h2>Tanda Terima Pembayaran</h2><div class="card"><div class="fg"><label>Dibayar dari tanggal<input type="date" id="tf" value="${TT.from}"></label><label>Sampai tanggal<input type="date" id="tu" value="${TT.to}"></label></div><p class="em">Pilih penerima berstatus <b>Lunas</b>. Daftar Tanda Terima (jumlah, terbilang, tanggal, dan penandatangan) disusun otomatis.</p></div>${L.length?`<div class="tw"><table><thead><tr><th><input type="checkbox" data-a="tta" ${ck}><th>Nama<th>Jabatan<th>NIPD<th>Tgl Bayar<th>Jumlah</thead><tbody>${L.map(p=>`<tr><td><input type="checkbox" data-tt="${esc(p.id)}" ${TT.sel.has(p.id)?'checked':''} ${ck}><td>${esc(p.nama)}<td>${esc(p.jabatan||'-')}<td class="n">${esc(p.nipd||'-')}<td class="n">${tgl(p.tgl_bayar)}<td class="n">${rp(p.realisasi)}`).join('')}</tbody></table></div><div class="row"><button class="btn" data-a="ttb" ${n?'':'disabled'}>Buat Tanda Terima (${n} penerima)</button></div>`:'<p class="em">Belum ada pembayaran berstatus Lunas pada rentang ini.</p>'}`},
   laporan(){const L=S.pengajuan.filter(x=>x.status==='Disetujui'),r=S.me.role;
   return `<h2>Laporan Perjalanan</h2>${L.length?`<div class="tw"><table><thead><tr><th>No ST<th>Petugas<th>Maksud & Tujuan<th>Status Laporan<th></thead><tbody>${L.map(p=>{const b=(l,a,c='')=>`<button class="btn sm ${c}" data-a="${a}" data-id="${esc(p.id)}">${l}</button>`,x=[];
    if(r==='Pelaksana'&&(!p.status_laporan||p.status_laporan==='Revisi'))x.push(b('Isi Laporan','lp'));
@@ -85,6 +87,7 @@ async function aiGen(p){const poin=$('lh').value.trim();if(!poin)return toast('I
  let h=poin.split('\n').filter(x=>x.trim()).map((x,i)=>`${i+1}. ${x.trim().replace(/^[-\d.\s]+/,'')}`).join('\n'),t='1. Menindaklanjuti hasil kegiatan dalam rapat koordinasi internal pemerintah desa.\n2. Menyampaikan laporan kepada Kepala Desa untuk arahan lebih lanjut.';
  try{const r=await api({token:tok,action:'ai',id:p.id,poin});if(r.success){h=j(r.hasil);t=j(r.tindak)}else toast(r.message||'Memakai template lokal')}catch(e){toast('Offline: memakai template lokal')}
  $('lw').value=h;$('ll').value=t;b.disabled=false;b.textContent='✨ Generate Draft (AI)'}
+const TT={sel:new Set(),from:'',to:''},ttList=()=>S.pengajuan.filter(x=>x.status_biaya==='Lunas'&&(!TT.from||x.tgl_bayar>=TT.from)&&(!TT.to||x.tgl_bayar<=TT.to));
 // ---- Upload ke Google Drive (gambar dikompres di perangkat dulu) ----
 const rd=(f,ok,no)=>{const r=new FileReader;r.onload=()=>ok({mime:f.type,data:r.result.split(',')[1],name:f.name});r.onerror=()=>no(Error('Gagal membaca file'));r.readAsDataURL(f)};
 const shrink=f=>new Promise((ok,no)=>{if(!f.type.startsWith('image/'))return f.size>1.5e6?no(Error('PDF maksimal 1,5 MB')):rd(f,ok,no);const i=new Image;i.onload=()=>{const s=Math.min(1,1400/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*s;c.height=i.height*s;c.getContext('2d').drawImage(i,0,0,c.width,c.height);ok({mime:'image/jpeg',data:c.toDataURL('image/jpeg',.72).split(',')[1],name:f.name.replace(/\.\w+$/,'')+'.jpg'})};i.onerror=()=>no(Error('File gambar tidak valid'));i.src=URL.createObjectURL(f)});
@@ -93,7 +96,9 @@ async function upl(inp,id,kind,tid,pid){const f=inp.files[0];if(!f)return;toast(
   $(tid).value=r.url;if(pid){$(pid).src=IMG(r.url);$(pid).hidden=false}
   toast(r.shared?'Tersimpan di Google Drive ✔':'Tersimpan, tetapi folder tidak bisa dibagikan publik — foto mungkin tidak tampil di cetak',!r.shared)}
  catch(e){toast('Upload gagal: '+e.message,1);inp.value=''}inp.disabled=false}
-document.addEventListener('change',e=>{const t=e.target,u=t.dataset&&t.dataset.up;if(u){const[id,kind,tid,pid]=u.split('|');upl(t,id,kind,tid,pid)}});
+document.addEventListener('change',e=>{const t=e.target,u=t.dataset&&t.dataset.up;if(u){const[id,kind,tid,pid]=u.split('|');upl(t,id,kind,tid,pid)}
+ if(t.dataset&&t.dataset.tt){t.checked?TT.sel.add(t.dataset.tt):TT.sel.delete(t.dataset.tt);$('c-tt').innerHTML=sec.tt()}
+ if(t.id==='tf'||t.id==='tu'){TT[t.id==='tf'?'from':'to']=t.value;$('c-tt').innerHTML=sec.tt()}});
 // ---- Event delegation ----
 document.addEventListener('click',e=>{const t=e.target.closest('[data-a],[data-g]');if(!t)return;if(t.dataset.g)return go(t.dataset.g);
  const id=t.dataset.id,a=t.dataset.a,p=S.pengajuan.find(x=>x.id===id),ask=(m,f)=>{const x=prompt(m);if(x&&x.trim())f(x.trim())};
@@ -107,7 +112,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-a],[data-g
  else if(a==='ls')act({action:'putuskanLaporan',id,aksi:'setuju'},'Laporan dikonfirmasi ✔');
  else if(a==='lr')ask('Catatan revisi:',x=>act({action:'putuskanLaporan',id,aksi:'revisi',alasan:x},'Revisi diminta'));
  else if(a==='sl'){const L={maksud:$('lm').value,tujuan:$('lt').value,hasil:$('lw').value.trim(),tindak:$('ll').value,k1:$('k1').value,f1:$('f1').value,k2:$('k2').value,f2:$('f2').value};if(!L.hasil)return toast('Hasil kegiatan wajib diisi',1);$('dlg').close();act({action:'laporan',id,laporan:L},'Laporan dikirim ✔')}
- else if(a==='x')$('dlg').close();else if(a==='pr'){$('pr').innerHTML=[...$('dlg').querySelectorAll('.pg')].map(x=>x.outerHTML).join('');setTimeout(print,50)}
+ else if(a==='tta'){const L=ttList(),all=L.every(x=>TT.sel.has(x.id));L.forEach(x=>all?TT.sel.delete(x.id):TT.sel.add(x.id));$('c-tt').innerHTML=sec.tt()}else if(a==='ttb')docTTD(ttList().filter(x=>TT.sel.has(x.id)));else if(a==='x')$('dlg').close();else if(a==='pr'){$('pr').innerHTML=[...$('dlg').querySelectorAll('.pg')].map(x=>x.outerHTML).join('');setTimeout(print,50)}
  else if(a==='csv'){const L=fl(),k=Object.keys(L[0]||{}),c=v=>'"'+String(v??'').replace(/"/g,'""')+'"',b=new Blob(['\ufeff'+[k.map(c).join(',')].concat(L.map(r=>k.map(x=>c(r[x])).join(','))).join('\n')],{type:'text/csv'}),l=document.createElement('a');l.href=URL.createObjectURL(b);l.download='arsip-sppd.csv';l.click()}});
 document.addEventListener('input',e=>{if(e.target.closest('#fm')){est();localStorage.setItem('draft',JSON.stringify(Object.fromEntries(new FormData($('fm')))))}
  else if(e.target.id==='q'){clearTimeout(qt);qt=setTimeout(()=>{q=e.target.value;$('ta').innerHTML=tbl(fl())},200)}});  // debounce + filter lokal
