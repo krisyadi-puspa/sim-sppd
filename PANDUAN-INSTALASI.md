@@ -67,3 +67,12 @@ git push
 ```
 Tunggu 1–2 menit → Ctrl+Shift+R.
 **Logo:** dimuat dari Google Drive — file harus dibagikan *"Siapa saja yang memiliki link"*. Jika tidak tampil, simpan logo sebagai `img/logo.png` lalu push ulang. Nama pejabat/NIPD tanda tangan ada di `js/desa.js`.
+
+## F. UPDATE v4 — Cetak SPPD tidak terpotong
+Backend **tidak berubah**. Salin `index.html`, `css/style.css`, `js/app.js`, `js/docs.js` ke folder `sim-sppd`, lalu `git add .` → `git commit -m "Update v4: cetak tidak terpotong, pengikut opsional"` → `git push` → Ctrl+Shift+R.
+Saat dialog cetak: pilih **Ukuran kertas A4**, **Skala 100%/Default**, dan **matikan "Header dan footer"** agar hasil PDF rapi 2 halaman (depan–belakang).
+
+## G. UPDATE v5 — Upload foto laporan & bukti biaya ke Google Drive
+**Backend:** paste `Kode.gs` baru → **Deploy → Manage deployments → ✏️ Edit → New version**. Lalu di editor jalankan fungsi **`siapkanPenyimpanan`** ▶ (sekali) dan buka **Execution log** — akan tampil link 📁 Master Penyimpanan, 📂 Uploads, dan 📄 Database. Folder ini ada di **Google Drive akun yang men-deploy Apps Script** (My Drive → `SIM-SPPD-Archive`, atau `SIM-SPPD Master Penyimpanan` bila dibuat ulang). Setelah update, link yang sama juga tampil di menu **Master Data** (login Admin).
+**Frontend:** salin `css/style.css` dan `js/app.js` ke folder `sim-sppd` → `git add .` → `git commit -m "Update v5: upload Drive"` → `git push` → Ctrl+Shift+R.
+**Catatan:** foto laporan hanya tampil di dokumen cetak bila file dibagikan "siapa saja yang memiliki link". Jika admin Google Workspace Anda memblokir berbagi publik, aplikasi memberi peringatan dan foto tidak muncul di cetak.
