@@ -83,3 +83,8 @@ Menu baru **Tanda Terima** (Bendahara, Sekretaris, Admin): filter tanggal bayar 
 
 ## I. UPDATE v7 — Format lembar kedua SPPD sesuai referensi
 Backend **tidak berubah**. Salin `css/style.css` dan `js/docs.js` ke folder `sim-sppd` → `git add .` → `git commit -m "Update v7: format lembar 2 SPPD"` → `git push` → Ctrl+Shift+R.
+
+## J. UPDATE v8 — Pengikut di semua dokumen + tanggal Tanda Terima
+**Backend berubah:** paste `Kode.gs` baru → **Deploy → Manage deployments → ✏️ Edit → New version** (kolom `rincian` ditambahkan otomatis).
+**Frontend:** salin `css/style.css`, `js/app.js`, `js/docs.js` ke folder `sim-sppd` → `git add .` → `git commit -m "Update v8: pengikut + tanggal tanda terima"` → `git push` → Ctrl+Shift+R.
+**Cara pakai:** di form pengajuan centang pengikut dari daftar aparatur (atau ketik manual). Estimasi dihitung per orang. Saat mengisi biaya, tiap orang punya kolom jumlah sendiri. Pengajuan lama tanpa pengikut tidak terpengaruh.
