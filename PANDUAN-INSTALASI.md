@@ -56,3 +56,14 @@
    git push
    ```
 3. Tunggu 1–2 menit → buka situs → **Ctrl+Shift+R**. Jika masih kosong: F12 → Application → Local Storage → *Clear*, atau buka Incognito.
+
+## E. UPDATE v3 — Format dokumen resmi + logo
+**Backend:** paste `Kode.gs` baru → **Deploy → Manage deployments → ✏️ Edit → New version**. Kolom baru (NIK, golongan, waktu, mata anggaran, pengikut, no. SPD) dimigrasikan otomatis. Isi **NIK** aparatur lewat menu *Master Data* (isi NIPD yang sama → data diperbarui, bukan duplikat).
+**Frontend:** ekstrak ZIP → salin **`index.html`, folder `css`, `js` (termasuk `desa.js` & `docs.js` baru), dan folder `img`** ke folder `sim-sppd`. File `js/config.js` Anda **tidak perlu ditimpa**. Lalu di PowerShell (folder `sim-sppd`):
+```
+git add .
+git commit -m "Update v3: format ST, SPPD, laporan, tanda terima + logo"
+git push
+```
+Tunggu 1–2 menit → Ctrl+Shift+R.
+**Logo:** dimuat dari Google Drive — file harus dibagikan *"Siapa saja yang memiliki link"*. Jika tidak tampil, simpan logo sebagai `img/logo.png` lalu push ulang. Nama pejabat/NIPD tanda tangan ada di `js/desa.js`.

@@ -1,0 +1,1 @@
+Opsional: simpan logo sebagai logo.png di folder ini (cadangan jika logo Google Drive gagal dimuat).
