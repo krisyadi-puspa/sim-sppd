@@ -88,3 +88,12 @@ Backend **tidak berubah**. Salin `css/style.css` dan `js/docs.js` ke folder `sim
 **Backend berubah:** paste `Kode.gs` baru → **Deploy → Manage deployments → ✏️ Edit → New version** (kolom `rincian` ditambahkan otomatis).
 **Frontend:** salin `css/style.css`, `js/app.js`, `js/docs.js` ke folder `sim-sppd` → `git add .` → `git commit -m "Update v8: pengikut + tanggal tanda terima"` → `git push` → Ctrl+Shift+R.
 **Cara pakai:** di form pengajuan centang pengikut dari daftar aparatur (atau ketik manual). Estimasi dihitung per orang. Saat mengisi biaya, tiap orang punya kolom jumlah sendiri. Pengajuan lama tanpa pengikut tidak terpengaruh.
+
+## K. UPDATE v9 — Jumlah Tanda Terima per orang
+Backend **tidak berubah**. Salin `js/app.js` dan `js/docs.js` ke folder `sim-sppd` → `git add .` → `git commit -m "Update v9: jumlah tanda terima per orang"` → `git push` → Ctrl+Shift+R.
+Data lama yang realisasinya tersimpan sebagai satu total otomatis dibagi rata per orang saat dicetak. Untuk angka berbeda per orang, isi ulang lewat dialog *Isi Biaya* (status **Revisi**) pada pengajuan baru.
+
+## L. UPDATE v10 — Tanggal lunas bayar + pengikut untuk Pelaksana
+**WAJIB (backend):** paste `Kode.gs` terbaru → **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy**. Jika backend belum diperbarui, aplikasi menampilkan banner merah di atas halaman, daftar centang pengikut **tidak muncul untuk Pelaksana**, dan rincian biaya per orang tidak tersimpan (jumlah menumpuk pada satu orang).
+**Frontend:** salin `css/style.css`, `js/app.js`, `js/docs.js` → `git add .` → `git commit -m "Update v10"` → `git push` → Ctrl+Shift+R.
+**Tanggal Lunas Bayar:** bawaan = tanggal kembali (sama dengan tanggal terbit surat). Bendahara dapat mengisinya saat *Setujui Biaya*, dan mengubahnya kapan saja di menu **Tanda Terima** (kolom *Tgl Lunas Bayar*).

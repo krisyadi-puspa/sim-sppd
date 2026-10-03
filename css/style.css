@@ -55,3 +55,4 @@ input[type=file]{height:auto;padding:.5rem}
 .fx{display:flex;flex-direction:column;justify-content:space-between;min-height:118px}.sgl{border-top:1px solid #000;width:72%;margin:0 0 0 9%}
 .kv td.dt{border-bottom:1px dotted #000;height:1.3em}
 .chk{display:flex;flex-wrap:wrap;gap:.3rem 1rem;margin:.6rem 0;align-items:center}.ck{display:flex;align-items:center;gap:.35rem;margin:0;font-size:13px;color:var(--t)}.ck input{width:auto;height:auto;margin:0}
+.warn{background:#FDE8E8;border:1px solid #F8B4B4;color:#9B1C1C;padding:.7rem 1rem;border-radius:8px;margin-bottom:1rem}
